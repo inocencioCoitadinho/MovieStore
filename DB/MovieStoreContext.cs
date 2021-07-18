@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using MovieStore.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace MovieStore.Data
 {
-    public class MovieStoreContext : DbContext
+    public class MovieStoreContext : IdentityDbContext
     {
+        public DbSet<Movie> Movie { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

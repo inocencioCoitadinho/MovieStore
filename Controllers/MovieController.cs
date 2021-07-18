@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using MovieStore.Data;
 using MovieStore.DB;
 using MovieStore.Models;
 using Newtonsoft.Json;
@@ -44,9 +45,8 @@ namespace MovieStore.Controllers
         public IActionResult MovieReserve()
         {
             string movieId = HttpContext.Request.QueryString.Value.Substring(HttpContext.Request.QueryString.Value.LastIndexOf('=') + 1);
-            //string test = str.Substring(str.LastIndexOf('-') + 1)
 
-
+            ViewData["Reserved"] = false;
             return View(JSONMethods.GetMovie(movieId));
         }
 
@@ -56,6 +56,15 @@ namespace MovieStore.Controllers
 
             Movie movie = JSONMethods.GetMovie(movieId);
 
+            using (MovieStoreContext dbContext = new MovieStoreContext())
+            {
+                movie.InitRent = startDate;
+                movie.EndRent = endDate;
+                dbContext.Add(movie);
+                dbContext.SaveChanges();
+            }
+
+            ViewData["Reserved"] = true;
             return View(movie);
         }
 
