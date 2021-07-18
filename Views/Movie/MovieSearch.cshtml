@@ -1,0 +1,33 @@
+﻿@model MoviesSearchListJson
+
+
+<h1>Search Results</h1>
+
+
+@if (Model != null && Model.Results.Count > 0)
+{
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Synopsis</th>
+                <th>More Info</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Result in Model.Results)
+            {
+                <tr>
+                    <td>@Result.original_title</td>
+                    <td>@Result.overview</td>
+                    <td>@Html.ActionLink("Info", "MoviePrint", new { Result.id }, null)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+<p><em>No results found.</em></p>
+}

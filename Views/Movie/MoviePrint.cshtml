@@ -1,0 +1,22 @@
+﻿@model Movie
+
+
+    
+
+<div class="text-center" style="font-size : 100px">
+    <h1 class="display-4">@(Model.Title + "  (" + Model.Release_date.Year + ')' )</h1>
+</div>
+<body>
+    <div style="width: 100%;">
+        <div style="width: 50%; float: left;">
+            <img src="@Model.PosterPath" class="detailImage" />
+        </div>
+        <div style="margin-left: 50%; height: 100px; ">
+            @Model.Synopsis
+        </div>
+        <div style="margin-left: 50%; height: 400px; ">
+            @Html.ActionLink("Reserve", "MovieReserve", new { @Model.ApiId }, null)
+        </div>
+    </div>
+</body>
+
