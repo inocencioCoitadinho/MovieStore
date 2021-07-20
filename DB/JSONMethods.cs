@@ -41,6 +41,15 @@ namespace MovieStore.DB
             return Movie.MovieJsonToMovie(movieJson, configJson);
         }
 
+        public static string BuildSearchString(string query, string language)
+        {
+            if(language != null)
+            {
+                return "&query=" + query + "&language=" + language;
+            }
+            return "&query=" + query;
+        }
+
 
     }
 }

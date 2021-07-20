@@ -35,7 +35,7 @@ namespace MovieStore.Models
 
             if (movieJson.title != null) movie.Title = movieJson.title;
             if (movieJson.runtime != null) movie.Runtime = movieJson.runtime;
-            if (movieJson.release_date != null) movie.Release_date = DateTime.Parse(movieJson.release_date);
+            if (movieJson.release_date != string.Empty ) movie.Release_date = DateTime.Parse(movieJson.release_date);
             if (movieJson.overview != null) movie.Synopsis = movieJson.overview;
             if (movieJson.poster_path != null && configJson.images.base_url != null) 
                 movie.PosterPath = configJson.images.base_url + "w500"+ movieJson.poster_path;

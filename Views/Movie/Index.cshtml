@@ -4,10 +4,13 @@
     <label for="MovieTitle">Search Movie</label>
     <input type="text" id="searchString" placeholder="Search" name="searchString" />
     <input type="submit" />
+
+    @*<td> Select a language </td>
+    <td>*@
+        @Html.DropDownList("NameJson", (IEnumerable
+       <SelectListItem>)ViewData["Language"], "--Select Language--")
+   @* </td>*@
+
 </form>
 
-<td> Select a language </td>
-<td>
-    @Html.DropDownList("MySkills", (IEnumerable
-   <SelectListItem>)ViewData["DBMySkills"])
-</td>
+
