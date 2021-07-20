@@ -11,6 +11,8 @@ namespace MovieStore.Data
     {
         public DbSet<Movie> Movie { get; set; }
 
+        public DbSet<MovieLanguage> MovieLanguage { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Server=.\;Database=MovieStore;Trusted_Connection=True;MultipleActiveResultSets=true");

@@ -19,7 +19,13 @@
             @foreach (var Result in Model.Results)
             {
                 <tr>
-                    <td>@Result.original_title</td>
+                    @if (Result.original_language != "en")
+                    {
+                    <td><b>@(Result.title + " (" + Result.release_date.Split('-')[0]  + ") " + Result.original_title)</b></td>}
+                    else
+                    { 
+                    <td><b>@(Result.title + " (" + Result.release_date.Split('-')[0] + ") " )</b></td> }
+
                     <td>@Result.overview</td>
                     <td>@Html.ActionLink("Info", "MoviePrint", new { Result.id }, null)</td>
                 </tr>

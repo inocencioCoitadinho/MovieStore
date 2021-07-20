@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
 using MovieStore.Data;
 using MovieStore.DB;
@@ -18,8 +19,10 @@ namespace MovieStore.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            Movie m = new Movie();
-
+            //IEnumerable<MovieLanguage> m = MovieLanguage.GetMovieLanguages();
+            var fromDatabaseEF = new SelectList(MovieLanguage.GetMovieLanguages(), "MovieLanguageId", "Name");
+            ViewData["DBMySkills"] = fromDatabaseEF;
+            MovieLanguage m = new MovieLanguage();
             return View(m);
         }
 
@@ -36,6 +39,7 @@ namespace MovieStore.Controllers
 
                 MoviesSearchListJson list = JsonConvert.DeserializeObject<MoviesSearchListJson>(jsonStringMovieSearch);
 
+                
                 return View(list);
             }
             else

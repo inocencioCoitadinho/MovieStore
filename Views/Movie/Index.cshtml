@@ -1,6 +1,13 @@
 ﻿
-    <form asp-controller="Movie" asp-action="MovieSearch" method="POST">
-        <label for="MovieTitle">Search Movie</label>
-        <input type="text" id="searchString" placeholder="Search" name="searchString" />
-        <input type="submit" />
-    </form>
+
+<form asp-controller="Movie" asp-action="MovieSearch" method="POST">
+    <label for="MovieTitle">Search Movie</label>
+    <input type="text" id="searchString" placeholder="Search" name="searchString" />
+    <input type="submit" />
+</form>
+
+<td> Select a language </td>
+<td>
+    @Html.DropDownList("MySkills", (IEnumerable
+   <SelectListItem>)ViewData["DBMySkills"])
+</td>
