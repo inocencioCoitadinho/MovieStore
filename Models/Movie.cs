@@ -1,4 +1,7 @@
-﻿using MovieStore.Data;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using MovieStore.Data;
+using MovieStore.DB;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -34,23 +37,27 @@ namespace MovieStore.Models
             Movie movie = new Movie();
 
             if (movieJson.title != null) movie.Title = movieJson.title;
-            if (movieJson.runtime != null) movie.Runtime = movieJson.runtime;
+            movie.Runtime = movieJson.runtime;
             if (movieJson.release_date != string.Empty ) movie.Release_date = DateTime.Parse(movieJson.release_date);
             if (movieJson.overview != null) movie.Synopsis = movieJson.overview;
             if (movieJson.poster_path != null && configJson.images.base_url != null) 
                 movie.PosterPath = configJson.images.base_url + "w500"+ movieJson.poster_path;
-            if (movieJson.id != null) movie.ApiId = movieJson.id.ToString();
+            movie.ApiId = movieJson.id.ToString();
 
             return movie;
         }
 
-        public void InsertMovie(Movie movie)
+        
+        public static void InsertMovie(Movie movie, DateTime endDate, DateTime startDate)
         {
-            using (var context = new MovieStoreContext())
+
+            using (MovieStoreContext dbContext = new MovieStoreContext())
             {
                 
-                context.Add(movie);
-                context.SaveChanges();
+                movie.InitRent = startDate;
+                movie.EndRent = endDate;
+                dbContext.Add(movie);
+                dbContext.SaveChanges();
             }
         }
         
