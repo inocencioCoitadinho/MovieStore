@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieStore.Data;
 
-namespace MovieStore.Data.Migrations
+namespace WebApp1.Data.Migrations
 {
     [DbContext(typeof(MovieStoreContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210721214247_mig4")]
+    partial class mig4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -234,17 +236,10 @@ namespace MovieStore.Data.Migrations
                     b.Property<DateTime?>("InitRent")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("OriginalLanguage")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OriginalTitle")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PosterPath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ReleaseDate")
+                    b.Property<DateTime>("Release_date")
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("Runtime")

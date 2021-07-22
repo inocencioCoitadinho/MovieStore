@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
 using MovieStore.Data;
@@ -16,6 +17,15 @@ namespace MovieStore.Controllers
 {
     public class MovieController : Controller
     {
+
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public MovieController(UserManager<IdentityUser> userManager)
+        {
+            _userManager = userManager;
+        }
+
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -59,15 +69,8 @@ namespace MovieStore.Controllers
         {
 
             Movie movie = JSONMethods.GetMovie(movieId);
-
-            using (MovieStoreContext dbContext = new MovieStoreContext())
-            {
-                movie.InitRent = startDate;
-                movie.EndRent = endDate;
-                dbContext.Add(movie);
-                dbContext.SaveChanges();
-            }
-
+            var userId = _userManager.GetUserId(HttpContext.User);
+            Movie.InsertMovie(movie, endDate, startDate, Guid.Parse(userId));
             ViewData["Reserved"] = true;
             return View(movie);
         }

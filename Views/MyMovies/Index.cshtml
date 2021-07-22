@@ -1,0 +1,42 @@
+﻿@model List<Movie>
+
+
+<h1>Search movies</h1>
+
+
+@if (Model != null && Model.Count > 0)
+{
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Synopsis</th>
+                <th>More Info</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Movie movie in Model)
+            {
+                <tr>
+                    @if (movie.OriginalLanguage != "en")
+                    {
+                        <td><b>@(movie.Title + " (" + movie.ReleaseDate.Year  + ") " + movie.OriginalTitle)</b></td>
+                    }
+                    else
+                    {
+                        <td><b>@(movie.Title + " (" + movie.ReleaseDate.Year + ") " )</b></td>
+                    }
+
+                    <td>@movie.Synopsis</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p><em>You have no movies currently reserved, would you like to search for some.</em></p>
+    <td>@Html.ActionLink("Info", "Index","Movie")</td>
+}
