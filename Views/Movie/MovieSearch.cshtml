@@ -18,6 +18,8 @@
         <tbody>
             @foreach (var Result in Model.Results)
             {
+                @if (Result.release_date is null)
+                    Result.release_date = "T.B.A.";
                 <tr>
                     @if (Result.original_language != "en")
                     {
@@ -36,4 +38,5 @@
 else
 {
 <p><em>No results found.</em></p>
+
 }

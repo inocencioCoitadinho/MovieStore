@@ -40,7 +40,6 @@ namespace MovieStore.Controllers
         [HttpPost]
         public IActionResult MovieSearch(string searchString, string NameJson)
         {
-            
             if (searchString != null)
             {
                 string args = JSONMethods.BuildSearchString(searchString, NameJson);
@@ -67,9 +66,8 @@ namespace MovieStore.Controllers
         [HttpPost]
         public IActionResult MovieReserve(DateTime startDate, DateTime endDate, string movieId)
         {
-
             Movie movie = JSONMethods.GetMovie(movieId);
-            var userId = _userManager.GetUserId(HttpContext.User);
+            string userId = _userManager.GetUserId(HttpContext.User);
             Movie.InsertMovie(movie, endDate, startDate, Guid.Parse(userId));
             ViewData["Reserved"] = true;
             return View(movie);

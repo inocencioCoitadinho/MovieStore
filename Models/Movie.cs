@@ -32,6 +32,7 @@ namespace MovieStore.Models
         public string? ApiId { get; set; }
         public Guid UserId { get; set; }
         public string OriginalLanguage { get; set; }
+        public ICollection<MovieGenre> MovieGenres { get; set; }
 
 
         public static Movie MovieJsonToMovie(MovieJson movieJson, ConfigurationJson configJson)
@@ -40,29 +41,64 @@ namespace MovieStore.Models
 
             if (movieJson.title != null) movie.Title = movieJson.title;
             movie.Runtime = movieJson.runtime;
+            movie.ApiId = movieJson.id.ToString();
             if (movieJson.release_date != string.Empty ) movie.ReleaseDate = DateTime.Parse(movieJson.release_date);
             if (movieJson.overview != null) movie.Synopsis = movieJson.overview;
             if (movieJson.poster_path != null && configJson.images.base_url != null) 
                 movie.PosterPath = configJson.images.base_url + "w500"+ movieJson.poster_path;
-            movie.ApiId = movieJson.id.ToString();
+            if (movieJson.original_language != null) movie.OriginalLanguage = movieJson.original_language;
+            else movie.OriginalLanguage = "Not Defined";
+            if (movieJson.original_title != null) movie.OriginalTitle = movieJson.original_title;
 
+            //foreach (var Genre in movieJson.genres)
+            //    movie.MovieGenres.Add(new MovieGenre(movie.MovieId,Guid.Empty)) ;
             return movie;
         }
 
         
         public static void InsertMovie(Movie movie, DateTime endDate, DateTime startDate, Guid userId)
         {
-
             using (MovieStoreContext dbContext = new MovieStoreContext())
             {
-                
+                movie.MovieId = Guid.NewGuid();
                 movie.InitRent = startDate;
                 movie.EndRent = endDate;
                 movie.UserId = userId;
                 dbContext.Add(movie);
+
+                List<Genre> dbGenres = dbContext.Genre.ToList();
+
+                List<MovieJson.Genre> movieGenres = JSONMethods.GetMovieGenres(movie.ApiId);
+                foreach (var movieGenre in movieGenres)
+                {
+                    var x = dbGenres.Find(dbGenre => dbGenre.JsonGenreId == movieGenre.id.ToString());
+                    if (x is null)
+                    {
+                        Genre insertGenre = new Genre();
+                        insertGenre.GenreId = Guid.NewGuid();
+                        insertGenre.JsonGenreId = movieGenre.id.ToString();
+                        insertGenre.Name = movieGenre.name;
+                        dbContext.Add(insertGenre);
+
+                        MovieGenre insertedMovieGenre = new MovieGenre();
+                        insertedMovieGenre.GenreId = insertGenre.GenreId;
+                        insertedMovieGenre.MovieId = movie.MovieId;
+                        dbContext.Add(insertedMovieGenre);
+                    }
+                    else
+                    {
+                        MovieGenre insertedMovieGenre = new MovieGenre();
+                        insertedMovieGenre.GenreId = x.GenreId;
+                        insertedMovieGenre.MovieId = movie.MovieId;
+                        dbContext.Add(insertedMovieGenre);
+                    }
+
+                }
                 dbContext.SaveChanges();
             }
         }
+
+
         public static List<Movie> GetMovieByUserId(string userId)
         {
             using (var context = new MovieStoreContext())

@@ -78,5 +78,15 @@
 }
 else
 {
-<p><em>Your movie @Model.Title as been successfully reserved.</em></p>
+<p><em>Your movie @Model.Title has been successfully reserved.</em></p>
+
+<body>
+    <div style="width: 100%;">
+        <div style=" width: 50%; height: 100px;">
+            @Html.ActionLink("Search more movies.", "Index")
+        </div>
+    </div>
+</body>
+
+
 }

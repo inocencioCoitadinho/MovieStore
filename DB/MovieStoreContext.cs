@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MovieStore.Models;
 using System;
@@ -12,6 +13,17 @@ namespace MovieStore.Data
         public DbSet<Movie> Movie { get; set; }
 
         public DbSet<MovieLanguage> MovieLanguage { get; set; }
+
+        public DbSet<Genre> Genre { get; set; }
+        public DbSet<MovieGenre> MovieGenre { get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<MovieGenre>().HasKey(table => new {
+                table.GenreId,
+                table.MovieId
+            });
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

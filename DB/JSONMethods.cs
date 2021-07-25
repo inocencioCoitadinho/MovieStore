@@ -41,6 +41,16 @@ namespace MovieStore.DB
             return Movie.MovieJsonToMovie(movieJson, configJson);
         }
 
+        public static List<MovieJson.Genre> GetMovieGenres(string jsonId)
+        {
+
+            string jsonStringMovie = JSONMethods.JsonApiRequest("https://api.themoviedb.org/3/movie/" +
+                jsonId + "?api_key=5933922b6587d2d506362381025ef410");
+            MovieJson movieJson = JsonConvert.DeserializeObject<MovieJson>(jsonStringMovie);
+
+            return movieJson.genres;
+        }
+
         public static string BuildSearchString(string query, string language)
         {
             if(language != null)
