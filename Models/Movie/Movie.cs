@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using MovieStore.Data;
 using MovieStore.DB;
+using MovieStore.Models.Genres;
+using MovieStore.Models.MovieVideos;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,7 +13,7 @@ using System.Threading.Tasks;
 
 #nullable enable
 
-namespace MovieStore.Models
+namespace MovieStore.Models.Movie
 {
     public class Movie
     {
@@ -104,7 +106,7 @@ namespace MovieStore.Models
             using (var context = new MovieStoreContext())
             {
 
-                return context.Movie.Where(u=>u.UserId == Guid.Parse(userId)).ToList();
+                return context.Movie.Where(u => u.UserId == Guid.Parse(userId)).ToList();
             }
         }
 

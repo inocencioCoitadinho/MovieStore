@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MovieStore.DB;
 using MovieStore.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,7 +22,13 @@ namespace MovieStore.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            string jsonStringMovieSearch = JSONMethods.JsonApiRequest
+                ("https://api.themoviedb.org/3/trending/movie/week?api_key=5933922b6587d2d506362381025ef410");
+
+            MoviesSearchListJson list = JsonConvert.DeserializeObject<MoviesSearchListJson>(jsonStringMovieSearch);
+
+
+            return View(list);
         }
 
         public IActionResult Privacy()

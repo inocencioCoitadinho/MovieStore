@@ -1,9 +1,11 @@
-﻿using System;
+﻿using MovieStore.Data;
+using MovieStore.Models.MovieVideos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MovieStore.Models
+namespace MovieStore.Models.Genres
 {
     public class Genre
     {
@@ -11,5 +13,14 @@ namespace MovieStore.Models
         public string Name { get; set; }
         public string JsonGenreId { get; set; }
         public ICollection<MovieGenre> MovieGenres { get; set; }
+
+        public static List<Genre> GetGenres()
+        {
+            using (var context = new MovieStoreContext())
+            {
+
+                return context.Genre.ToList();
+            }
+        }
     }
 }

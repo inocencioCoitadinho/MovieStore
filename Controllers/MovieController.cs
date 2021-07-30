@@ -5,6 +5,8 @@ using Microsoft.Extensions.Options;
 using MovieStore.Data;
 using MovieStore.DB;
 using MovieStore.Models;
+using MovieStore.Models.Genres;
+using MovieStore.Models.Movie;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -30,7 +32,8 @@ namespace MovieStore.Controllers
         public IActionResult Index()
         {
             ViewData["Language"] = new SelectList(MovieLanguage.GetMovieLanguages(), "NameJson", "Name");
-            MovieLanguage m = new MovieLanguage();
+            ViewData["Genres"] = new SelectList(Genre.GetGenres(), "GenreId", "Name");
+            Genre m = new Genre();
             return View(m);
         }
 

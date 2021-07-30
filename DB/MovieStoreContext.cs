@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MovieStore.Models;
+using MovieStore.Models.Genres;
+using MovieStore.Models.Movie;
 using System;
 using System.Collections.Generic;
 using System.Text;

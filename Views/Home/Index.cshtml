@@ -1,7 +1,32 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+﻿@model MoviesSearchListJson
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Poster</th>
+            <th>Title</th>
+            <th>Synopsis</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (MoviesSearchListJson.Result movie in Model.Results)
+        {
+            <tr>
+                <td style="width: 50%; float: left;">
+                    <img src="@movie.poster_path.Replace("w500","w154")" class="detailImage" />
+                </td>
+                @if (movie.original_language != "en")
+                {
+                    <td><b>@(movie.title + " (" + movie.release_date.Split('-')[0] + ") " + movie.original_title)</b></td>
+                }
+                else
+                {
+                    <td><b>@(movie.title + " (" + movie.release_date.Split('-')[0] + ") " )</b></td>
+                }
+
+                <td>@movie.overview</td>
+
+            </tr>
+        }
+    </tbody>
+</table>

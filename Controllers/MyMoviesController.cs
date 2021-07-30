@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MovieStore.Models;
+using MovieStore.Models.Movie;
 using System;
 using System.Collections.Generic;
 using System.Linq;

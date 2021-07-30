@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MovieStore.Models
+namespace MovieStore.Models.Genres
 {
     public class MovieGenre
     {
         [Key, Column(Order = 0)]
         public Guid MovieId { get; set; }
-        public Movie Movie { get; set; }
+        public Movie.Movie Movie { get; set; }
 
         [Key, Column(Order = 1)]
         public Guid GenreId { get; set; }

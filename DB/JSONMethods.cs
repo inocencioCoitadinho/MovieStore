@@ -1,4 +1,5 @@
 ﻿using MovieStore.Models;
+using MovieStore.Models.Movie;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -51,15 +52,15 @@ namespace MovieStore.DB
             return movieJson.genres;
         }
 
-        public static string BuildSearchString(string query, string language)
+        public static string BuildSearchString(string searchString, string language)
         {
-            if(language != null)
+            string queryFinal = "&query=" + searchString;
+            if (language != null)
             {
-                return "&query=" + query + "&language=" + language;
+                queryFinal += "&language=" + language;
             }
-            return "&query=" + query;
+            return queryFinal;
         }
-
 
     }
 }

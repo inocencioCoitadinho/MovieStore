@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MovieStore.Models
+namespace MovieStore.Models.MovieListJson
 {
+    //this one is just MoviesSearchListJson but singular instead of List
     public class MovieSearchJson
     {
         public bool adult { get; set; }
