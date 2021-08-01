@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using MovieStore.DB;
 using MovieStore.Models;
+using MovieStore.Models.Movie;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -26,9 +27,9 @@ namespace MovieStore.Controllers
                 ("https://api.themoviedb.org/3/trending/movie/week?api_key=5933922b6587d2d506362381025ef410");
 
             MoviesSearchListJson list = JsonConvert.DeserializeObject<MoviesSearchListJson>(jsonStringMovieSearch);
+            List<MovieSearchJsonView> view = MovieSearchJsonView.Create(list);
 
-
-            return View(list);
+            return View(view);
         }
 
         public IActionResult Privacy()

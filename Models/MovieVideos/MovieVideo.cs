@@ -5,11 +5,15 @@ using System.Threading.Tasks;
 
 namespace MovieStore.Models.MovieVideos
 {
-    public class MovieVideos
+    public class MovieVideo
     {
-        public Guid MovieVideoId { get; set; }
         public string Name { get; set; }
         public string YoutubeLink { get; set; }
 
+        public MovieVideo(string name, string youtubeLink)
+        {
+            Name = name;
+            YoutubeLink = youtubeLink;
+        }
     }
 }

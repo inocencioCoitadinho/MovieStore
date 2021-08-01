@@ -1,4 +1,5 @@
-﻿@model List<Movie>
+﻿@using MovieStore.Models.Movie
+@model List<Movie>
 
 
 <h1>Search movies</h1>
@@ -16,24 +17,24 @@
             </tr>
         </thead>
         <tbody>
-           @foreach (Movie movie in Model)
+            @foreach (Movie movie in Model)
             {
-            <tr>
-                <td style="width: 50%; float: left;">
-                    <img src="@movie.PosterPath.Replace("w500","w154")" class="detailImage" />
-                </td>
-               @if (movie.OriginalLanguage != "en")
-                {
-                    <td><b>@(movie.Title + " (" + movie.ReleaseDate.Year  + ") " + movie.OriginalTitle)</b></td>
-                }
-                else
-                {
-                    <td><b>@(movie.Title + " (" + movie.ReleaseDate.Year + ") " )</b></td>
-                }
+                <tr>
+                    <td style="width: 50%; float: left;">
+                        <img src="@movie.PosterPath.Replace("w500","w154")" class="detailImage" />
+                    </td>
+                    @if (movie.OriginalLanguage != "en")
+                    {
+                        <td><b>@(movie.Title + " (" + movie.ReleaseDate.Year  + ") " + movie.OriginalTitle)</b></td>
+                    }
+                    else
+                    {
+                        <td><b>@(movie.Title + " (" + movie.ReleaseDate.Year + ") " )</b></td>
+                    }
 
-                <td>@movie.Synopsis</td>
+                    <td>@movie.Synopsis</td>
 
-            </tr>
+                </tr>
             }
         </tbody>
     </table>
@@ -41,5 +42,5 @@
 else
 {
     <p><em>You have no movies currently reserved, would you like to search for some.</em></p>
-    <td>@Html.ActionLink("Info", "Index","Movie")</td>
+    <td>@Html.ActionLink("Info", "Index", "Movie")</td>
 }
