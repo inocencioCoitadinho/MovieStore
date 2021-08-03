@@ -34,6 +34,9 @@ namespace MovieStore.Models.Movie
         public string? ApiId { get; set; }
         public Guid UserId { get; set; }
         public string OriginalLanguage { get; set; }
+
+        [Column(TypeName = "decimal(18,4)")]
+        public decimal Popularity { get; set; }
         public ICollection<MovieGenre> MovieGenres { get; set; }
 
 
@@ -51,9 +54,8 @@ namespace MovieStore.Models.Movie
             if (movieJson.original_language != null) movie.OriginalLanguage = movieJson.original_language;
             else movie.OriginalLanguage = "Not Defined";
             if (movieJson.original_title != null) movie.OriginalTitle = movieJson.original_title;
+            movie.Popularity = (decimal)movieJson.popularity;
 
-            //foreach (var Genre in movieJson.genres)
-            //    movie.MovieGenres.Add(new MovieGenre(movie.MovieId,Guid.Empty)) ;
             return movie;
         }
 
@@ -110,6 +112,14 @@ namespace MovieStore.Models.Movie
             }
         }
 
+        public static Movie GetMovieByJsonMovieId(string movieId)
+        {
+            using (var context = new MovieStoreContext())
+            {
+
+                return context.Movie.Where(u => u.ApiId == movieId).FirstOrDefault();
+            }
+        }
 
     }
 

@@ -28,6 +28,7 @@ namespace MovieStore.Controllers
         }
 
 
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -50,7 +51,6 @@ namespace MovieStore.Controllers
                    + args);
 
                 MoviesSearchListJson list = JsonConvert.DeserializeObject<MoviesSearchListJson>(jsonStringMovieSearch);
-
                 
                 return View(list);
             }
@@ -58,23 +58,36 @@ namespace MovieStore.Controllers
                 return View();
         }
 
+
         public IActionResult MovieReserve()
         {
             string movieId = HttpContext.Request.QueryString.Value.Substring(HttpContext.Request.QueryString.Value.LastIndexOf('=') + 1);
 
-            ViewData["Reserved"] = false;
+            ViewData["Post"] = false;
             return View(JSONMethods.GetMovie(movieId));
         }
+
 
         [HttpPost]
         public IActionResult MovieReserve(DateTime startDate, DateTime endDate, string movieId)
         {
             Movie movie = JSONMethods.GetMovie(movieId);
-            string userId = _userManager.GetUserId(HttpContext.User);
-            Movie.InsertMovie(movie, endDate, startDate, Guid.Parse(userId));
-            ViewData["Reserved"] = true;
-            return View(movie);
+            int status = DataManipulation.CheckMovieReservationStatus(startDate, endDate, movie);
+            ViewData["Post"] = true;
+            ViewData["Status"] = status;
+
+            if (status == 1 )//movie can be reserved
+            {
+                string userId = _userManager.GetUserId(HttpContext.User);
+                Movie.InsertMovie(movie, endDate, startDate, Guid.Parse(userId));
+                return View(movie); 
+            }
+            else
+            { 
+                return View(movie);
+            }
         }
+
 
         public IActionResult MoviePrint()
         {
