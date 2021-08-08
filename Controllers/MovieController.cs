@@ -94,8 +94,9 @@ namespace MovieStore.Controllers
             string movieId = HttpContext.Request.RouteValues["id"].ToString();
 
             Movie movie = JSONMethods.GetMovie(movieId);
+            MovieView view = new MovieView(movie);
 
-            return View(movie);
+            return View(view);
         }
 
         

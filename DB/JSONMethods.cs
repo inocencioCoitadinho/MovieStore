@@ -1,4 +1,5 @@
 ﻿using MovieStore.Models;
+using MovieStore.Models.Cast;
 using MovieStore.Models.Movie;
 using Newtonsoft.Json;
 using System;
@@ -50,6 +51,30 @@ namespace MovieStore.DB
             MovieJson movieJson = JsonConvert.DeserializeObject<MovieJson>(jsonStringMovie);
 
             return movieJson.genres;
+        }
+
+        public static CastByMovieJson GetCastByMovieId(string jsonId)
+        {
+
+            string jsonStringMovie = JSONMethods.JsonApiRequest("https://api.themoviedb.org/3/movie/" +
+                jsonId + "/credits?api_key=5933922b6587d2d506362381025ef410&language=en-US");
+            CastByMovieJson castJson = JsonConvert.DeserializeObject<CastByMovieJson>(jsonStringMovie);
+
+            string jsonStringConfig = JSONMethods.JsonApiRequest("https://api.themoviedb.org/3/configuration?api_key=5933922b6587d2d506362381025ef410");
+            ConfigurationJson configJson = JsonConvert.DeserializeObject<ConfigurationJson>(jsonStringConfig);
+
+
+            castJson.cast = castJson.cast.Take(15).ToList();
+            //set up correct profile path, and give a generic one if it does not exist
+            foreach (var a in castJson.cast)
+            {
+                if (string.IsNullOrEmpty(a.profile_path))
+                    a.profile_path = "https://public.slidesharecdn.com/v2/images/user-48x48.png";
+                else
+                    a.profile_path = configJson.images.base_url + "w45" + a.profile_path;
+            }
+
+            return castJson;
         }
 
         public static string BuildSearchString(string searchString, string language)

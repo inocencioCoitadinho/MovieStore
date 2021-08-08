@@ -27,8 +27,15 @@
 
                 <td>@movie.Movie.overview</td>
                 <td>
-                    <iframe type="text/html" width="640" height="385" src="@movie.YoutubeVideo.YoutubeLink" frameborder="0">
-                    </iframe>
+                    @if (movie.YoutubeVideo != null)
+                    {
+                        <iframe type="text/html" width="640" height="385" src="@movie.YoutubeVideo.YoutubeLink" frameborder="0">
+                        </iframe>
+                    }
+                    else
+                    {
+                        <b>No Trailer currently exists.</b>
+                    }
                 </td>
             </tr>
         }

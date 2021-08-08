@@ -50,7 +50,7 @@ namespace MovieStore.Models.Movie
             if (movieJson.release_date != string.Empty ) movie.ReleaseDate = DateTime.Parse(movieJson.release_date);
             if (movieJson.overview != null) movie.Synopsis = movieJson.overview;
             if (movieJson.poster_path != null && configJson.images.base_url != null) 
-                movie.PosterPath = configJson.images.base_url + "w500"+ movieJson.poster_path;
+                movie.PosterPath = configJson.images.base_url + "w342"+ movieJson.poster_path;
             if (movieJson.original_language != null) movie.OriginalLanguage = movieJson.original_language;
             else movie.OriginalLanguage = "Not Defined";
             if (movieJson.original_title != null) movie.OriginalTitle = movieJson.original_title;

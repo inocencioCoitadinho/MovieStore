@@ -1,23 +1,38 @@
 ﻿@using MovieStore.Models.Movie
-@model Movie
+@model MovieView
 
 
-    
+
 
 <div class="text-center" style="font-size : 100px">
-    <h1 class="display-4">@(Model.Title + "  (" + Model.ReleaseDate.Year + ')' )</h1>
+    <h1 class="display-4">@(Model.Movie.Title + "  (" + Model.Movie.ReleaseDate.Year + ')' )</h1>
 </div>
 <body>
     <div style="width: 100%;">
         <div style="width: 50%; float: left;">
-            <img src="@Model.PosterPath" class="detailImage" />
+            <img src="@Model.Movie.PosterPath" class="detailImage" />
         </div>
         <div style="margin-left: 50%; height: 100px; ">
-            @Model.Synopsis
+            @Model.Movie.Synopsis
         </div>
-        <div style="margin-left: 50%; height: 400px; ">
-            @Html.ActionLink("Reserve", "MovieReserve", new { @Model.ApiId }, null)
+        <div style="margin-left: 50%; height: 500px; ">
+            @Html.ActionLink("Reserve", "MovieReserve", new { @Model.Movie.ApiId }, null)
         </div>
     </div>
 </body>
 
+<table class="table">
+    <thead>
+        Cast Info
+    </thead>
+    <tbody>
+        @foreach (var cast in Model.Cast.cast)
+        {
+            <tr>
+                <td><img src= @cast.profile_path class="detailImage" /></td>
+                <td><b>@Html.ActionLink(cast.name, "Index", "Actor", new { cast.id }, null)</b></td>
+                <td><b>as @cast.character </b></td>
+            </tr>
+        }
+    </tbody>
+</table>

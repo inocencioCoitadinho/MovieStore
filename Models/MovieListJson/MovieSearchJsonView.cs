@@ -38,7 +38,9 @@ namespace MovieStore.Models.Movie
                 MovieSearchJsonView add = new MovieSearchJsonView();
                 add.Movie = movie;
                 add.Movie.poster_path = configJson.images.base_url + "w154" + add.Movie.poster_path;
-                add.YoutubeVideo = new MovieVideo(video.name, "https://www.youtube.com/embed/" + video.key+ "?autoplay=0");
+                if(video != null)
+                    add.YoutubeVideo = new MovieVideo(video.name, "https://www.youtube.com/embed/" + video.key+ "?autoplay=0");
+
                 returnList.Add(add);
             }
 

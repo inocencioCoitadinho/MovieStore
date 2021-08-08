@@ -1,4 +1,5 @@
 ﻿using MovieStore.Data;
+using MovieStore.DB;
 using MovieStore.Models.MovieVideos;
 using System;
 using System.Collections.Generic;
@@ -22,5 +23,6 @@ namespace MovieStore.Models.Genres
                 return context.Genre.ToList();
             }
         }
+
     }
 }
