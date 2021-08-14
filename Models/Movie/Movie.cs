@@ -75,7 +75,7 @@ namespace MovieStore.Models.Movie
                 List<MovieJson.Genre> movieGenres = JSONMethods.GetMovieGenres(movie.ApiId);
                 foreach (var movieGenre in movieGenres)
                 {
-                    var x = dbGenres.Find(dbGenre => dbGenre.JsonGenreId == movieGenre.id.ToString());
+                    Genre? x = dbGenres.Find(dbGenre => dbGenre.JsonGenreId == movieGenre.id.ToString());
                     if (x is null)
                     {
                         Genre insertGenre = new Genre();

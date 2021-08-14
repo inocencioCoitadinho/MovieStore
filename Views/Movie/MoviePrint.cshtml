@@ -9,15 +9,31 @@
 </div>
 <body>
     <div style="width: 100%;">
-        <div style="width: 50%; float: left;">
+        <div style="width: 50%; float: left;font-size : 20px">
             <img src="@Model.Movie.PosterPath" class="detailImage" />
+            <p><b>Directed by: @Model.Director</b></p>
+            <p style="font-size: 17px"><b>@Model.Screenplay</b></p>
         </div>
-        <div style="margin-left: 50%; height: 100px; ">
+        <div style="margin-left: 50%; height: 200px; ">
             @Model.Movie.Synopsis
         </div>
-        <div style="margin-left: 50%; height: 500px; ">
+        <div style="margin-left: 50%; height: 400px; ">
             @Html.ActionLink("Reserve", "MovieReserve", new { @Model.Movie.ApiId }, null)
         </div>
+    </div>
+    <div style="height: 500px">
+        <h1>
+            Trailer
+        </h1>
+        @if (Model.YoutubeVideo.YoutubeLink != null)
+        {
+            <iframe type="text/html" width="640" height="385" src="@Model.YoutubeVideo.YoutubeLink" frameborder="0">
+            </iframe>
+        }
+        else
+        {
+            <b>No Trailer currently exists.</b>
+        }
     </div>
 </body>
 

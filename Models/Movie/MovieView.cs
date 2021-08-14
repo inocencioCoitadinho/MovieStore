@@ -20,6 +20,9 @@ namespace MovieStore.Models.Movie
 
         public List<MovieJson.Genre> Genres { get; set; }
 
+        public string Director { get; set; } = "Unknown.";
+
+        public string Screenplay { get; set; } = "Unknown.";
 
         public MovieView(Movie movie)
         {
@@ -38,14 +41,31 @@ namespace MovieStore.Models.Movie
             List<MovieVideoJson.Result> SortedVideoList = videoList.results.OrderBy(o => o.published_at).ToList();
             MovieVideoJson.Result video = SortedVideoList.Find(o => o.type == "Trailer");
 
-            YoutubeVideo = new MovieVideo(video.name, "https://www.youtube.com/embed/" + video.key + "?autoplay=0");
+            if(video != null)
+                YoutubeVideo = new MovieVideo(video.name, "https://www.youtube.com/embed/" + video.key + "?autoplay=0");
             #endregion
 
             //Genres
             Genres = JSONMethods.GetMovieGenres(movie.ApiId);
 
-            //Cast
+            //Cast and Director
             Cast = JSONMethods.GetCastByMovieId(movie.ApiId);
+            Director = Cast.crew.Find(x => x.department == "Directing" && x.job == "Director").name;
+
+            //writing team
+            var writers = Cast.crew.FindAll(x => x.department == "Writing" && x.job == "Story");
+
+            if (writers.Count > 0)
+            {
+                Screenplay = "Written by : ";
+                foreach(var t in writers)
+                {
+                    Screenplay += t.name + ", ";
+                }
+                Screenplay = Screenplay.Remove(Screenplay.Length - 2);
+            }
+            
+
 
         }
     }

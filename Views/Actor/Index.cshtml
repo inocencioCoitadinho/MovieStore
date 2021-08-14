@@ -1,3 +1,75 @@
 ﻿@using MovieStore.Models.Actor
 @model PersonView
 
+
+@{int i = 0; }
+<div style=" font-size : 80px"><center>@Model.PersonJson.name</center></div>
+<html>
+<body>
+    <div style="width: 100%;height:905px">
+        <div style="width: 50%; float: left;">
+            <img src="@Model.PersonJson.profile_path" class="detailImage" />
+        </div>
+        <div style="margin-left: 50%; height: 100px; ">
+            Also known as @Model.AlsoKnowAs <p>@Model.PersonJson.biography</p>
+        </div>
+
+    </div>
+
+    <div style="height:300px">
+        <h1 style="">Personal Information</h1>
+        <p>
+            <b>Date of Birth: </b> @Model.PersonJson.birthday
+        </p>
+        <p>
+            <b>Place of Birth: </b> @Model.PersonJson.place_of_birth
+        </p>
+    </div>
+
+    <h1 style="">Other movies @Model.PersonJson.name has participated in.</h1>
+    <div class="container">
+       @for(; i <= Model.MovieCredits.Count-3; i += 3){
+
+
+        <div class="row" style="height:200px">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 red">
+                <img src="@Model.MovieCredits[i].media.poster_path" class="detailImage" />
+                <p>
+                    @Html.ActionLink(Model.MovieCredits[i].media.title + "  (" + Model.MovieCredits[i].media.release_date.Split('-')[0] + ')', "Movie", "MoviePrint", new { Model.MovieCredits[i].media.id}, null)
+                </p>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 red">
+                <img src="@Model.MovieCredits[i+1].media.poster_path" class="detailImage" />
+                <p>
+                    @Html.ActionLink(Model.MovieCredits[i+1].media.title + "  (" + Model.MovieCredits[i+1].media.release_date.Split('-')[0] + ')', "Movie", "MoviePrint", new { Model.MovieCredits[i+1].media.id }, null)
+                </p>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 red">
+                <img src="@Model.MovieCredits[i+2].media.poster_path" class="detailImage" />
+                <p>
+                    @Html.ActionLink(Model.MovieCredits[i+2].media.title + "  (" + Model.MovieCredits[i+2].media.release_date.Split('-')[0] + ')', "Movie", "MoviePrint", new { Model.MovieCredits[i+2].media.id }, null)
+                </p>
+            </div>
+
+        </div>
+        }
+       @if (i < Model.MovieCredits.Count) 
+        {
+           <div class="row" style="height:300px">
+          @while (i < Model.MovieCredits.Count)
+           {
+               <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 red">
+                   <img src="@Model.MovieCredits[i].media.poster_path" class="detailImage" />
+                   <p>
+                       @Html.ActionLink(Model.MovieCredits[i].media.title + "  (" + Model.MovieCredits[i].media.release_date.Split('-')[0] + ')', "Movie", "MoviePrint", new { Model.MovieCredits[i].media.id }, null)
+                   </p>              
+               </div>
+              i++;
+           }
+           </div>
+        }
+    </div>
+</body>
+
+</html>
+

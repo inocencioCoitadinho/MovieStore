@@ -18,11 +18,11 @@
                 </td>
                 @if (movie.Movie.original_language != "en")
                 {
-                    <td><b>@(movie.Movie.title + " (" + movie.Movie.release_date.Split('-')[0] + ") " + movie.Movie.original_title)</b></td>
+                    <td><b>@(@Html.ActionLink(movie.Movie.title + " (" + movie.Movie.release_date.Split('-')[0] + ") " + movie.Movie.original_title, "MoviePrint", "Movie", new {movie.Movie.id }, null))</b></td>
                 }
                 else
                 {
-                    <td><b>@(movie.Movie.title + " (" + movie.Movie.release_date.Split('-')[0] + ") " )</b></td>
+                    <td><b>@(@Html.ActionLink(movie.Movie.title + " (" + movie.Movie.release_date.Split('-')[0] + ") ", "MoviePrint", "Movie", new {movie.Movie.id }, null))</b></td>
                 }
 
                 <td>@movie.Movie.overview</td>
