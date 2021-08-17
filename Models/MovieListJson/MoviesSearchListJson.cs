@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MovieStore.DB;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,11 +10,26 @@ namespace MovieStore.Models
     public class MoviesSearchListJson
     {
 
-        public List<Result> Results { get; set; }
+        public int page { get; set; }
+        public List<Result> results { get; set; }
+        public int total_pages { get; set; }
+        public int total_results { get; set; }
 
-        public List<Root> Roots { get; set; }
 
-  
+        //2 next properties added to save information for pagination
+        public string searchString { get; set; }
+        public string language { get; set; }
+
+
+        //this is for setting the last result added to the page, whenever there is a search by language. 
+        //For example, in a search of German language films, if the 20th result is the 243 result of the total search, that includes all other languages
+        //the 243 will be stored here, to not repeat results for second page. 
+        public int current_result { get; set; }
+        //store the page for the JSON api call without messing with the page number for the view
+        public int page_number_language { get; set; }
+
+
+
         public class Result
         {
             public bool adult { get; set; }
@@ -31,12 +48,47 @@ namespace MovieStore.Models
             public int vote_count { get; set; }
         }
 
-        public class Root
+
+        public void PaginatedByLanguage (string language)
         {
-            public int page { get; set; }
-            public List<Result> results { get; set; }
-            public int total_pages { get; set; }
-            public int total_results { get; set; }
+            if (language == "en" || (language == null && this.language == null))
+            {
+                this.language = language;
+            }
+            else
+            {
+                this.results = this.results.FindAll(t => t.original_language == language);
+                this.page_number_language = this.page;
+
+                int remainingElements = 0;
+
+                while(this.results.Count < 20 && this.page_number_language < total_pages)
+                {
+                    string args = JSONMethods.BuildSearchString(this.searchString, null, this.page_number_language + 1);
+                    string jsonStringMovieSearch = JSONMethods.JsonApiRequest("https://api.themoviedb.org/3/search/movie?api_key=5933922b6587d2d506362381025ef410"
+                       + args);
+                    MoviesSearchListJson newList = JsonConvert.DeserializeObject<MoviesSearchListJson>(jsonStringMovieSearch);
+
+                    var newResult = newList.results.Find(t => t.original_language == (language ?? this.language));
+                    while(newResult != null && this.results.Count < 20)
+                    {
+                        this.results.Add(newResult);
+                        newList.results = newList.results.SkipWhile(t => t.id != newResult.id).ToList();
+                        newList.results.RemoveAt(0);
+                        newResult = newList.results.Find(t => t.original_language == (language ?? this.language));
+
+                        remainingElements = 20 - newList.results.Count;
+                    }
+                    this.page_number_language += 1;
+                }
+                this.current_result = this.page_number_language * 20 + remainingElements;
+                this.language = language;
+            }
+
+
+            
         }
+
+
     }
 }

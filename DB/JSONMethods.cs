@@ -77,12 +77,16 @@ namespace MovieStore.DB
             return castJson;
         }
 
-        public static string BuildSearchString(string searchString, string language)
+        public static string BuildSearchString(string searchString, string language, int page)
         {
             string queryFinal = "&query=" + searchString;
             if (language != null)
             {
                 queryFinal += "&language=" + language;
+            }
+            if (page != 0)
+            {
+                queryFinal += "&page=" + page;
             }
             return queryFinal;
         }

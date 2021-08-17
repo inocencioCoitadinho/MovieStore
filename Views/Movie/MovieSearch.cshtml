@@ -4,7 +4,7 @@
 <h1>Search Results</h1>
 
 
-@if (Model != null && Model.Results.Count > 0)
+@if (Model != null && Model.results.Count > 0)
 {
 
     <table class="table">
@@ -16,17 +16,19 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var Result in Model.Results)
+            @foreach (var Result in Model.results)
             {
                 @if (Result.release_date is null)
                     Result.release_date = "T.B.A.";
                 <tr>
                     @if (Result.original_language != "en")
                     {
-                    <td><b>@(Result.title + " (" + Result.release_date.Split('-')[0]  + ") " + Result.original_title)</b></td>}
+                        <td><b>@(Result.title + " (" + Result.release_date.Split('-')[0]  + ") " + Result.original_title)</b></td>
+}
                     else
-                    { 
-                    <td><b>@(Result.title + " (" + Result.release_date.Split('-')[0] + ") " )</b></td> }
+                    {
+                        <td><b>@(Result.title + " (" + Result.release_date.Split('-')[0] + ") " )</b></td>
+}
 
                     <td>@Result.overview</td>
                     <td>@Html.ActionLink("Info", "MoviePrint", new { Result.id }, null)</td>
@@ -34,9 +36,28 @@
             }
         </tbody>
     </table>
+
+    <a asp-action="MovieSearch"
+       asp-route-page="@(Model.page - 1)"
+       asp-route-language="@(Model.language)"
+       asp-route-searchString="@(Model.searchString)"
+       class="btn btn-default">
+       Previous
+
+    </a>
+
+    <a asp-action="MovieSearch"
+       asp-route-page="@(Model.page + 1)"
+       asp-route-language="@(Model.language)"
+       asp-route-searchString="@(Model.searchString)"
+       class="btn btn-default">
+       Next
+
+
+    </a>
 }
 else
 {
-<p><em>No results found.</em></p>
+    <p><em>No results found.</em></p>
 
 }

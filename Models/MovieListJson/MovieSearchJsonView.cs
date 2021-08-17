@@ -24,7 +24,7 @@ namespace MovieStore.Models.Movie
             string jsonStringConfig = JSONMethods.JsonApiRequest("https://api.themoviedb.org/3/configuration?api_key=5933922b6587d2d506362381025ef410");
             ConfigurationJson configJson = JsonConvert.DeserializeObject<ConfigurationJson>(jsonStringConfig);
 
-            foreach (var movie in list.Results)
+            foreach (var movie in list.results)
             {
                 string jsonStringVideo = JSONMethods.JsonApiRequest
                     ("https://api.themoviedb.org/3/movie/"+ movie.id + "/videos?api_key=5933922b6587d2d506362381025ef410&language=en-US");

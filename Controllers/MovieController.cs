@@ -41,17 +41,19 @@ namespace MovieStore.Controllers
 
 
 
-        [HttpPost]
-        public IActionResult MovieSearch(string searchString, string NameJson)
+        
+        public IActionResult MovieSearch(string searchString, string language, int page)
         {
             if (searchString != null)
             {
-                string args = JSONMethods.BuildSearchString(searchString, NameJson);
+                string args = JSONMethods.BuildSearchString(searchString, null, page);
                 string jsonStringMovieSearch = JSONMethods.JsonApiRequest("https://api.themoviedb.org/3/search/movie?api_key=5933922b6587d2d506362381025ef410"
                    + args);
 
                 MoviesSearchListJson list = JsonConvert.DeserializeObject<MoviesSearchListJson>(jsonStringMovieSearch);
-                
+                list.searchString = searchString;
+                list.PaginatedByLanguage(language);
+
                 return View(list);
             }
             else
