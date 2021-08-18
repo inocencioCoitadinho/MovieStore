@@ -23,8 +23,8 @@
                 <tr>
                     @if (Result.original_language != "en")
                     {
-                        <td><b>@(Result.title + " (" + Result.release_date.Split('-')[0]  + ") " + Result.original_title)</b></td>
-}
+                        <td><b>@(Result.title + " (" + Result.release_date.Split('-')[0] + ") " + Result.original_title)</b></td>
+                    }
                     else
                     {
                         <td><b>@(Result.title + " (" + Result.release_date.Split('-')[0] + ") " )</b></td>
@@ -37,10 +37,13 @@
         </tbody>
     </table>
 
-    <a asp-action="MovieSearch"
+    <a 
+       asp-action="MovieSearch"
        asp-route-page="@(Model.page - 1)"
        asp-route-language="@(Model.language)"
        asp-route-searchString="@(Model.searchString)"
+       asp-route-current_result="@Model.current_result"
+       asp-route-page_number_language="@Model.page_number_language"
        class="btn btn-default">
        Previous
 
@@ -50,7 +53,9 @@
        asp-route-page="@(Model.page + 1)"
        asp-route-language="@(Model.language)"
        asp-route-searchString="@(Model.searchString)"
-       class="btn btn-default">
+       asp-route-current_result="@(Model.current_result  ) "
+       asp-route-page_number_language="@Model.page_number_language"
+       class="btn btn-default" >
        Next
 
 

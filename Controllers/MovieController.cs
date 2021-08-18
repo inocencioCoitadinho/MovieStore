@@ -41,8 +41,8 @@ namespace MovieStore.Controllers
 
 
 
-        
-        public IActionResult MovieSearch(string searchString, string language, int page)
+        [HttpGet]
+        public IActionResult MovieSearch(string searchString, string language, int page, int current_result, int page_number_language)
         {
             if (searchString != null)
             {
@@ -52,7 +52,7 @@ namespace MovieStore.Controllers
 
                 MoviesSearchListJson list = JsonConvert.DeserializeObject<MoviesSearchListJson>(jsonStringMovieSearch);
                 list.searchString = searchString;
-                list.PaginatedByLanguage(language);
+                list.PaginatedByLanguage(language, page_number_language, current_result);
 
                 return View(list);
             }
@@ -60,6 +60,7 @@ namespace MovieStore.Controllers
                 return View();
         }
 
+      
 
         public IActionResult MovieReserve()
         {

@@ -26,7 +26,7 @@ namespace MovieStore.Models
         //the 243 will be stored here, to not repeat results for second page. 
         public int current_result { get; set; }
         //store the page for the JSON api call without messing with the page number for the view
-        public int page_number_language { get; set; }
+        public int page_number_language { get; set; } = 0;
 
 
 
@@ -49,7 +49,7 @@ namespace MovieStore.Models
         }
 
 
-        public void PaginatedByLanguage (string language)
+        public void PaginatedByLanguage (string language, int page_number_language, int current_result)
         {
             if (language == "en" || (language == null && this.language == null))
             {
@@ -57,8 +57,27 @@ namespace MovieStore.Models
             }
             else
             {
-                this.results = this.results.FindAll(t => t.original_language == language);
-                this.page_number_language = this.page;
+                this.current_result = current_result;
+                this.page_number_language = page_number_language;
+                //tests if this is the first page in the language search. If it is, takes all elements from the API call done in the contrller.
+                //if not, retrieves the last page searched, takes away the elements already seen in the previous page, and does the rest of the process
+                if(this.page_number_language == 0)
+                {
+                    this.results = this.results.FindAll(t => t.original_language == language);
+                    this.page_number_language = this.page;
+                }
+                    
+                else
+                {
+                    string args = JSONMethods.BuildSearchString(this.searchString, null, this.page_number_language);
+                    string jsonStringMovieSearch = JSONMethods.JsonApiRequest("https://api.themoviedb.org/3/search/movie?api_key=5933922b6587d2d506362381025ef410"
+                       + args);
+                    MoviesSearchListJson newList = JsonConvert.DeserializeObject<MoviesSearchListJson>(jsonStringMovieSearch);
+                    newList.results = newList.results.Skip(this.current_result).ToList();
+                    this.results = newList.results.FindAll(t => t.original_language == language);
+                }
+
+                
 
                 int remainingElements = 0;
 
@@ -81,14 +100,10 @@ namespace MovieStore.Models
                     }
                     this.page_number_language += 1;
                 }
-                this.current_result = this.page_number_language * 20 + remainingElements;
+                this.current_result = remainingElements;
                 this.language = language;
             }
-
-
             
         }
-
-
     }
 }
