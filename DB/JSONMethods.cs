@@ -55,6 +55,11 @@ namespace MovieStore.DB
 
         public static CastByMovieJson GetCastByMovieId(string jsonId)
         {
+            //retrieve generic profile picture for those who do not have a profile picture
+            MovieStoreContext dbContext = new MovieStoreContext();
+            FileDepot file = dbContext.FileDepot.FindAsync(Guid.Parse("BE0D0A99-A0F1-4694-B1AA-21FE87B96251")).Result;
+            string genericProfilePicture = Convert.ToBase64String(file.File);
+
 
             string jsonStringMovie = JSONMethods.JsonApiRequest("https://api.themoviedb.org/3/movie/" +
                 jsonId + "/credits?api_key=5933922b6587d2d506362381025ef410&language=en-US");
@@ -66,13 +71,16 @@ namespace MovieStore.DB
 
             castJson.cast = castJson.cast.Take(15).ToList();
             //set up correct profile path, and give a generic one if it does not exist
+
             foreach (var a in castJson.cast)
             {
                 if (string.IsNullOrEmpty(a.profile_path))
-                    a.profile_path = "https://public.slidesharecdn.com/v2/images/user-48x48.png";
+                    a.profile_path = string.Format("data:image/jpg;base64,{0}", genericProfilePicture);
                 else
                     a.profile_path = configJson.images.base_url + "w45" + a.profile_path;
             }
+
+            dbContext.DisposeAsync();
 
             return castJson;
         }

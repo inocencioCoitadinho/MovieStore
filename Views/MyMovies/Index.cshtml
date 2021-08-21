@@ -23,15 +23,7 @@
                     <td style="width: 50%; float: left;">
                         <img src="@movie.PosterPath.Replace("w500","w154")" class="detailImage" />
                     </td>
-                    @if (movie.OriginalLanguage != "en")
-                    {
-                        <td><b>@(movie.Title + " (" + movie.ReleaseDate.Year  + ") " + movie.OriginalTitle)</b></td>
-                    }
-                    else
-                    {
-                        <td><b>@(movie.Title + " (" + movie.ReleaseDate.Year + ") " )</b></td>
-                    }
-
+                    <td><b>@Html.ActionLink((movie.Title + " (" + movie.ReleaseDate.Year + ") "),  "MoviePrint", "Movie", new { movie.ApiId }, null)</b></td>
                     <td>@movie.Synopsis</td>
 
                 </tr>
@@ -41,6 +33,6 @@
 }
 else
 {
-    <p><em>You have no movies currently reserved, would you like to search for some.</em></p>
+    <p><em>You have no movies currently reserved, would you like to search for some?</em></p>
     <td>@Html.ActionLink("Info", "Index", "Movie")</td>
 }

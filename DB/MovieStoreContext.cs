@@ -17,7 +17,11 @@ namespace MovieStore.DB
         public DbSet<MovieLanguage> MovieLanguage { get; set; }
 
         public DbSet<Genre> Genre { get; set; }
+
         public DbSet<MovieGenre> MovieGenre { get; set; }
+
+        public DbSet<FileDepot> FileDepot { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

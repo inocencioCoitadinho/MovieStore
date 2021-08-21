@@ -20,9 +20,9 @@ namespace MovieStore.Models.Movie
 
         public List<MovieJson.Genre> Genres { get; set; }
 
-        public string Director { get; set; } = "Unknown.";
+        public string Director { get; set; } = "Unknown";
 
-        public string Screenplay { get; set; } = "Unknown.";
+        public string Screenplay { get; set; } = "Unknown";
 
         public MovieView(Movie movie)
         {

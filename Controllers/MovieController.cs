@@ -94,14 +94,16 @@ namespace MovieStore.Controllers
 
         public IActionResult MoviePrint()
         {
-            string movieId = HttpContext.Request.RouteValues["id"].ToString();
-
+            string movieId = HttpContext.Request.QueryString.Value.Substring(HttpContext.Request.QueryString.Value.LastIndexOf('=') + 1);
+            if (string.IsNullOrEmpty(movieId))
+                movieId = HttpContext.Request.RouteValues["id"].ToString();
             Movie movie = JSONMethods.GetMovie(movieId);
             MovieView view = new MovieView(movie);
 
             return View(view);
         }
 
-        
+
+
     }
 }
