@@ -7,8 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebApp1
+namespace MovieStore
 {
+
     public class Program
     {
         public static void Main(string[] args)

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 
-namespace WebApp1.Data.Migrations
+namespace MovieStore.DB.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

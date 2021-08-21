@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MovieStore.Data
+namespace MovieStore.DB
 {
     public class MovieStoreContext : IdentityDbContext
     {

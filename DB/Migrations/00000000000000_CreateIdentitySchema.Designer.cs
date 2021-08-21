@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MovieStore.Data;
+using MovieStore.DB;
 using System;
 
-namespace WebApp1.Data.Migrations
+namespace MovieStore.DB.Migrations
 {
     [DbContext(typeof(MovieStoreContext))]
     [Migration("00000000000000_CreateIdentitySchema")]

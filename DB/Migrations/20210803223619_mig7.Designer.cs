@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieStore.Data;
 
-namespace WebApp1.Data.Migrations
+namespace MovieStore.DB.Migrations
 {
     [DbContext(typeof(MovieStoreContext))]
     [Migration("20210803223619_mig7")]

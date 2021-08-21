@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace WebApp1.Data.Migrations
+namespace MovieStore.DB.Migrations
 {
     public partial class migration2 : Migration
     {

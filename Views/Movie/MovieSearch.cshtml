@@ -21,9 +21,9 @@
                 @if (Result.release_date is null)
                     Result.release_date = "T.B.A.";
                 <tr>
-                    @if (Result.original_language != "en")
+                    @if (Result.original_language != "en" && !Result.original_title.Contains(Result.title))
                     {
-                        <td><b>@(Result.title + " (" + Result.release_date.Split('-')[0] + ") " + Result.original_title)</b></td>
+                        <td><b>@(Result.title + " (" + Result.release_date.Split('-')[0] + ") ") </b><p><i> @Result.original_title</i></p></td>
                     }
                     else
                     {
@@ -37,32 +37,43 @@
         </tbody>
     </table>
 
-    <a 
-       asp-action="MovieSearch"
-       asp-route-page="@(Model.page - 1)"
-       asp-route-language="@(Model.language)"
-       asp-route-searchString="@(Model.searchString)"
-       asp-route-current_result="@Model.current_result"
-       asp-route-page_number_language="@Model.page_number_language"
-       class="btn btn-default">
-       Previous
 
-    </a>
-
-    <a asp-action="MovieSearch"
-       asp-route-page="@(Model.page + 1)"
-       asp-route-language="@(Model.language)"
-       asp-route-searchString="@(Model.searchString)"
-       asp-route-current_result="@(Model.current_result  ) "
-       asp-route-page_number_language="@Model.page_number_language"
-       class="btn btn-default" >
-       Next
+    var PreviousDisabled = "";
+    if (Model.page == 1) PreviousDisabled = "disabled";
+    var NextDisabled = "";
+    if (Model.page == Model.total_pages || Model.results.Count<20) NextDisabled = "disabled";
 
 
-    </a>
-}
-else
-{
+    <div style="margin-left: 40%; font-size : 120px" >
+        <a asp-action="MovieSearch"
+           asp-route-page="@(Model.page - 1)"
+           asp-route-language="@(Model.language)"
+           asp-route-searchString="@(Model.searchString)"
+           asp-route-current_result="@Model.current_result"
+           asp-route-page_number_language="@Model.page_number_language"
+           class="btn btn-default @PreviousDisabled" style=" font-size : 30px" >
+            Previous
+
+        </a>
+    
+
+    
+        <a asp-action="MovieSearch"
+           asp-route-page="@(Model.page + 1)"
+           asp-route-language="@(Model.language)"
+           asp-route-searchString="@(Model.searchString)"
+           asp-route-current_result="@(Model.current_result) "
+           asp-route-page_number_language="@Model.page_number_language"
+           class="btn btn-default @NextDisabled" style=" font-size : 30px" >
+            Next
+        </a>
+    </div>
+    
+    <div style="margin-left: 50%;"> <b>Page @Model.page</b> </div>
+    
+    }
+    else
+    {
     <p><em>No results found.</em></p>
 
-}
+    }
