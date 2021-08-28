@@ -37,6 +37,24 @@ namespace MovieStore.Controllers
             return View();
         }
 
+
+        public IActionResult GetTMDBLogo()
+        {
+            using (MovieStoreContext db = new MovieStoreContext())
+            {
+                byte[] photo = db
+                .FileDepot
+                .Where(p => p.FileId == Guid.Parse("9447D858-E174-46D0-991C-2EFDF0EF5DBD"))
+                .Select(img => img.File)
+                .FirstOrDefault();
+                return File(photo, "image/jpeg");
+                
+            }
+            
+            
+        }
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

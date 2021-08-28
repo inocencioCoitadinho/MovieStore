@@ -112,7 +112,7 @@ namespace MovieStore.Models.Movie
             }
         }
 
-        public static Movie GetMovieByJsonMovieId(string movieId)
+        public static Movie? GetMovieByJsonMovieId(string movieId)
         {
             using (var context = new MovieStoreContext())
             {
